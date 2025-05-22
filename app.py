@@ -11,7 +11,7 @@ import os
 
 BASE_URL = Path(__file__).parent.resolve()
 app = Flask(__name__,static_folder=str(BASE_URL / "static")
-            ,static_url_path="/static")
+            ,static_url_path="/static", template_folder=str(BASE_URL / "templates"))
 CORS(app, supports_credentials=True, expose_headers=["Authorization"], allow_headers=["Content-Type", "Authorization"])
 
 
