@@ -7,6 +7,7 @@ from API.employee.employee import employee_create_job_post,employee_posted_job_l
 from API.allJobsList import alljobs
 from JWT.jwt import jwt_required_custom
 from  pathlib import Path
+import os
 
 BASE_URL = Path(__file__).parent.resolve()
 app = Flask(__name__,static_folder=str(BASE_URL / "static")
@@ -149,4 +150,5 @@ def logout():
     return redirect(url_for('login_page'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000))),debug=True
+            )
