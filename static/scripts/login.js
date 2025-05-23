@@ -50,7 +50,10 @@ function loginHandler(event){
     fetcher("POST", urlBuilder(`/api/login`), payload,false,true)
         .catch(() => {
             submitBtn.disabled = false;
-        }).then(async ({status,body:res,headers})=>{
+        }).then( (response)=>{
+            let res =response.body ;
+            let headers = response.headers;
+            let status = res.status
             if (!res || !headers) {
                 console.error("No headers found in response.");
                 submitBtn.disabled = false;
