@@ -62,8 +62,7 @@ const jobs = [
  * @type {{userId:string,AppliedJobId:string[]}}
  */
   let dataToBackend ={
-    userId:"dsfad1fs65fsdff651",
-    AppliedJobId:[]
+    AppliedJobId:""
   };
 /**
  * 
@@ -80,7 +79,7 @@ function applyJob(eve){
     console.table(dataToBackend)
     try{
 
-        fetcher("POST",urlBuilder(`/api/alljobs`),dataToBackend).then((res)=>{
+        fetcher("POST",urlBuilder(`/api/applyJobs`),dataToBackend).then((res)=>{
             updateApplyButton(btn);
 
             

@@ -44,7 +44,7 @@ def jwt_required_custom(f):
             return jsonify(decoded), 401
 
         # Store user info globally using Flask's `g`
-        g.current_user = decoded.get("user")
+        g.current_user = decoded
         return f(*args, **kwargs)
     
     return decorated_function

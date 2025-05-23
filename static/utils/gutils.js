@@ -260,7 +260,8 @@ async function fetcher(method,url,data=null,addHeader=false,withCredentials=fals
         }
         console.table(options.headers);
         const response = await fetch(url, options);
-        console.warn(response.headers)
+        
+        console.warn(options.headers)
         if (!response.ok) {
             throw new Error(`Fetch failed with status ${response.status}`);
         }

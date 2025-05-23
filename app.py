@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify,render_template,url_for,session,redirect
+from flask import Flask, request, jsonify,render_template,url_for,session,redirect,make_response
 from flask_cors import CORS
 import sqlite3
 from API.login import login_api
@@ -7,12 +7,22 @@ from API.employee.employee import employee_create_job_post,employee_posted_job_l
 from API.allJobsList import alljobs
 from JWT.jwt import jwt_required_custom
 from  pathlib import Path
+from flask_wtf import CSRFProtect
+from API.jobseeker.jobseeker_apply_jobs import apply_job
 import os
 
 BASE_URL = Path(__file__).parent.resolve()
+
 app = Flask(__name__,static_folder=str(BASE_URL / "static")
             ,static_url_path="/static", template_folder=str(BASE_URL / "templates"))
-CORS(app, supports_credentials=True, expose_headers=["Authorization"], allow_headers=["Content-Type", "Authorization"])
+
+csrf = CSRFProtect()
+# csrf.
+app.config['WTF_CSRF_ENABLED'] = False
+
+CORS(app, supports_credentials=True, expose_headers=["Authorization"],
+     allow_headers=["Content-Type", "Authorization"])
+
 
 
 @app.after_request
@@ -127,7 +137,9 @@ def job_posted_list_page():
 def post_job():
     return employee_create_job_post()
    
+# /api/endpoint => json => fetch API js (cutome headers)
 
+# /route => html => href attribute cookies
 
 @app.route("/api/loadJobsList",methods=["GET"])
 @jwt_required_custom
@@ -143,10 +155,16 @@ def load_employee_posted_jobs():
   print(data)
   return data
 
+@app.route("/api/applyJobs",methods=["POST"])
+@jwt_required_custom
+def apply_jobs_pattadhari():
+    return apply_job()
 
-@app.route('/logout')
+@app.route('/api/logout')
 def logout():
-    session.pop('user', None)  
+    session.pop('user', None)
+    response = make_response()
+    response.set_cookie('jwt_token', '', expires=0, httponly=True, samesite='Lax')
     return redirect(url_for('login_page'))
 
 if __name__ == '__main__':

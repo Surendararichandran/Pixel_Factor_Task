@@ -47,10 +47,10 @@ function loginHandler(event){
     // Submit the form data
     console.table([...formData.entries()]);
     const payload = Object.fromEntries(formData.entries())
-    fetcher("POST", urlBuilder(`/api/login`), payload,false,false)
+    fetcher("POST", urlBuilder(`/api/login`), payload,false,true)
         .catch(() => {
             submitBtn.disabled = false;
-        }).then(({body:res,headers})=>{
+        }).then(async ({status,body:res,headers})=>{
             if (!res || !headers) {
                 console.error("No headers found in response.");
                 submitBtn.disabled = false;
@@ -59,10 +59,12 @@ function loginHandler(event){
             console.log(res)
             console.log(headers)
             setLocalStorage(headers.get('Authorization'))
-
+            console.log(document.cookie)
             let currentRoute = window.location.pathname;
             let {template:redirectTo,allowedRoutes} = reDirector(res.data.role)
             reDirectTo(`${redirectTo}`)
+          
+                
                         
         }
         )
@@ -83,3 +85,4 @@ window.addEventListener("DOMContentLoaded",()=>{
     if(!form) return
     initializeDynamicErrorRemoval(form)
 })
+

@@ -43,27 +43,11 @@ def login_api():
         secure=False,      # only over HTTPS (use False for localhost/dev)
         samesite='Strict' # adjust based on your needs
     )
-        return response
+        
+    return response
 
     return jsonify({
         'message': 'Invalid credentials',
         'data': None
     }), 401    
-    # data = request.json
-    # email = data.get('email')
-    # password = data.get('password')
-
-    # if not email or not password:
-    #     return jsonify({'message': 'Email and password are required'}), 400
-
-    # conn = sqlite3.connect('users.db')
-    # c = conn.cursor()
-    # c.execute("SELECT * FROM users WHERE email=? AND password=?", (email, password))
-    # user = c.fetchone()
-    # print(user)
-    # conn.close()
-
-    # if user:
-    #     return jsonify({'message': 'Login successful','role':f'{user[len(user)-1]}'}), 200
-    # else:
-    #     return jsonify({'message': 'Invalid credentials'}), 401
+   
