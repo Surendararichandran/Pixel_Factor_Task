@@ -16,8 +16,8 @@ BASE_URL = Path(__file__).parent.resolve()
 app = Flask(__name__,static_folder=str(BASE_URL / "static")
             ,static_url_path="/static", template_folder=str(BASE_URL / "templates"))
 
-csrf = CSRFProtect()
 # csrf.
+csrf = CSRFProtect()
 app.config['WTF_CSRF_ENABLED'] = False
 # app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 

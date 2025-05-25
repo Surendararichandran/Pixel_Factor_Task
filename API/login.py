@@ -20,8 +20,9 @@ def login_api():
     # sql Connection ends
     # ***********************************
     # Return is the user is not valid  #base Case.
+    
     if not user:
-       return server_response(401,'Invalid credentials')
+       return server_response(400,'UserNot Found ; else Register please')
    
     user_id = user[0]
     user_email = user[1]
