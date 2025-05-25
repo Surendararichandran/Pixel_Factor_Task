@@ -19,7 +19,7 @@ app = Flask(__name__,static_folder=str(BASE_URL / "static")
 csrf = CSRFProtect()
 # csrf.
 app.config['WTF_CSRF_ENABLED'] = False
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+# app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 CORS(app, supports_credentials=True, expose_headers=["Authorization"],
      allow_headers=["Content-Type", "Authorization"])
