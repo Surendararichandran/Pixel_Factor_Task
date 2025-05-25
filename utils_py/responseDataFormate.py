@@ -1,4 +1,5 @@
-from flask import jsonify
+from flask import jsonify,make_response
+
 def server_response(status_code=200,msg="Ok",response_data=None):
     if response_data is not None and not isinstance(response_data, dict):
         raise TypeError("response_data must be a dict or None")
@@ -9,4 +10,4 @@ def server_response(status_code=200,msg="Ok",response_data=None):
         "message": msg
     }
     
-    return jsonify(response_dict), status_code
+    return make_response(jsonify(response_dict), status_code)

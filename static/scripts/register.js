@@ -45,7 +45,7 @@ function formOnSubmit(event) {
     // Submit the form data
     console.table([...formData.entries()]);
     const payload = Object.fromEntries(formData.entries())
-    fetcher("POST", urlBuilder(`/register`), payload)
+    fetcher("POST",`/register`, payload)
         .catch(() => {
             submitBtn.disabled = false;
         }).then(()=>{

@@ -32,7 +32,7 @@ function formDatavalue(formData){
  * @param {FormData} formData 
  */
 async function postNewJob(jobPostData,formData){
-  let res = await fetcher("POST",urlBuilder("/api/post-job"),jobPostData,true)
+  let res = await fetcher("POST","/api/post-job",jobPostData,true)
   console.table(res);
   if(res.status!==201){
     console.error("Can't createa post");

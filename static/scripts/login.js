@@ -47,7 +47,7 @@ function loginHandler(event){
     // Submit the form data
     console.table([...formData.entries()]);
     const payload = Object.fromEntries(formData.entries())
-    fetcher("POST", urlBuilder(`/api/login`), payload,false,true)
+    fetcher("POST", `/api/login`, payload,false,true)
         .catch(() => {
             submitBtn.disabled = false;
         }).then( (response)=>{

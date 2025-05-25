@@ -79,7 +79,7 @@ function applyJob(eve){
     console.table(dataToBackend)
     try{
 
-        fetcher("POST",urlBuilder(`/api/applyJobs`),dataToBackend).then((res)=>{
+        fetcher("POST",`/api/applyJobs`,dataToBackend).then((res)=>{
             updateApplyButton(btn);
 
             
@@ -119,7 +119,7 @@ function resetTheButtonStyleInError(btn){
 // }
 async function fetcjobsToApply(){
   try{
-    let res =await fetcher("GET",urlBuilder("/api/alljobs"))
+    let res =await fetcher("GET","/api/alljobs")
     renderJobList(res.body.data.jobs);
   }
   catch(err){

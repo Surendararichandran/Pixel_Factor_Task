@@ -86,8 +86,8 @@ function urlBuilder(apiUrlstr){
  * @returns {void}
  */
 function reDirectTo(routeUrl){
-    let route = new URL(routeUrl,server.hostName).toString();
-    window.location.href= route;
+    // let route = urlBuilder(routeUrl,server.hostName).toString();
+    window.location.href= routeUrl;
 }
 
 /**
@@ -221,10 +221,8 @@ function getLocalStorage(key){
 async function logout(){
     try{
 
-        let res = await fetcher("POST",urlBuilder("/api/logout"),false ,true)
-        if(res.body.status==204){
-            localStorage.clear();        
-        }
+        let res = await fetcher("POST","/api/logout",false ,true)
+        window.localStorage.clear();        
     }
     catch(err){
         console.error(err)

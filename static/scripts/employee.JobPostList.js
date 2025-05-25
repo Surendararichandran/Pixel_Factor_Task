@@ -86,7 +86,7 @@ function UpdatejobsNRerender(jobsList){
 async function loadJobs(){
     // alert("Loading jobs......")
     try {
-        const res = await fetcher("GET", urlBuilder("/api/loadJobsList"), null, true);
+        const res = await fetcher("GET", "/api/loadJobsList", null, true);
         UpdatejobsNRerender(res.body.data.jobs);
     } catch (err) {
         console.error(err);

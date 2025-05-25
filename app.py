@@ -19,6 +19,7 @@ app = Flask(__name__,static_folder=str(BASE_URL / "static")
 csrf = CSRFProtect()
 # csrf.
 app.config['WTF_CSRF_ENABLED'] = False
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 CORS(app, supports_credentials=True, expose_headers=["Authorization"],
      allow_headers=["Content-Type", "Authorization"])
@@ -90,6 +91,7 @@ def api_wraper():
 
 @app.route('/login', methods=["GET"])
 def login():
+    print(request)
     return render_template("login.html",login_script=static_file_path_genarator("scripts/login.js"),
                                gutils=static_file_path_genarator("utils/gutils.js"))
     
@@ -101,6 +103,7 @@ def static_file_path_genarator(file_name):
 @app.route("/jobseeker",methods=["GET"])
 @jwt_required_custom
 def jobseeker_Template():
+    print("\n\n From JobSeeker : \n\n",request)
     return render_template("jobSeeker.jobList.html",job_seeker_js=static_file_path_genarator("scripts/jobSeeker.joblist.js"),
                         gutils=static_file_path_genarator("utils/gutils.js")   )
 """
@@ -118,13 +121,11 @@ def get_jobs():
     conn.close()
     return jsonify(jobs)
 
-# write this seperate
+
 @app.route('/job-post')
 @jwt_required_custom
 def job_post_page():
     return render_template('employee.jobPost.html',recruiter_new_job_post=static_file_path_genarator("scripts/employee.jobPost.js"), gutils=static_file_path_genarator("utils/gutils.js"))
-# write this seperate 
-# /api/loadJobsList
 
 @app.route('/recruter',methods = ["GET"])
 @jwt_required_custom
@@ -137,9 +138,7 @@ def job_posted_list_page():
 def post_job():
     return employee_create_job_post()
    
-# /api/endpoint => json => fetch API js (cutome headers)
 
-# /route => html => href attribute cookies
 
 @app.route("/api/loadJobsList",methods=["GET"])
 @jwt_required_custom
@@ -160,15 +159,22 @@ def load_employee_posted_jobs():
 def apply_jobs_pattadhari():
     return apply_job()
 
-@app.route('/api/logout')
+@app.route('/api/logout',methods=["POST"])
 def logout():
     session.pop('user', None)
     response = make_response()
-    response.set_cookie('jwt_token', '', expires=0, httponly=True, samesite='Lax')
+    response.delete_cookie('jwt_token',path="/")
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
     return redirect(url_for('login_page'))
 
 if __name__ == '__main__':
     app.run(
-       app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000))),
-       debug=True
+           host="0.0.0.0", 
+        port=int(   os.environ.get("PORT", 5000)),
+        # port = 5000,
+        debug=True
     )
+
+    
