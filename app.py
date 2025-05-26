@@ -8,7 +8,8 @@ from API.allJobsList import alljobs
 from JWT.jwt import jwt_required_custom
 from  pathlib import Path
 from flask_wtf import CSRFProtect
-from API.jobseeker.jobseeker_apply_jobs import apply_job
+from API.candidate_apply_job.job_apply import apply_job
+from API.search.search_api import search
 import os
 
 BASE_URL = Path(__file__).parent.resolve()
@@ -22,7 +23,7 @@ app.config['WTF_CSRF_ENABLED'] = False
 # app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 CORS(app, supports_credentials=True, expose_headers=["Authorization"],
-     allow_headers=["Content-Type", "Authorization"])
+    allow_headers=["Content-Type", "Authorization"])
 
 
 
@@ -154,10 +155,10 @@ def load_employee_posted_jobs():
   print(data)
   return data
 
-@app.route("/api/applyJobs",methods=["POST"])
-@jwt_required_custom
-def apply_jobs_pattadhari():
-    return apply_job()
+# @app.route("/api/applyJobs",methods=["POST"])
+# @jwt_required_custom
+# def apply_jobs_pattadhari():
+#     return apply_job()
 
 @app.route('/api/logout',methods=["POST"])
 def logout():
@@ -169,9 +170,24 @@ def logout():
     response.headers['Expires'] = '0'
     return redirect(url_for('login_page'))
 
+
+
+@app.route('/api/search_jobs',methods=["POST"])
+def jobs_filter():
+    return search()
+
+
+
+# Route to apply jobs by the job seekers
+@app.route('/api/applyJob',methods = ["POST"])
+@jwt_required_custom
+def candidate_apply_job():
+    return apply_job()
+
+
 if __name__ == '__main__':
     app.run(
-           host="0.0.0.0", 
+        host="0.0.0.0", 
         port=int(   os.environ.get("PORT", 5000)),
         # port = 5000,
         debug=True

@@ -26,7 +26,7 @@ function formValidation(form){
         catch(error){
             console.error(error)
             isIamvalid = false
-        }
+        }   
 
     }
     
@@ -198,12 +198,21 @@ async function loadSearchBar(containerId, callbackFn) {
     const html = await res.text();
     console.log(html)
     container.innerHTML = html;
-  
-    if (typeof callbackFn === "function") {
-      callbackFn(); // to set up event listeners or filters after load
+
+   // Wait until setupJobSearchComponent is available
+    let attempts = 10;
+    while (typeof window.setupJobSearchComponent !== "function" && attempts > 0) {
+        await new Promise(res => setTimeout(res, 100)); // wait 100ms
+        attempts--;
     }
-  }
-  
+
+    if (typeof window.setupJobSearchComponent === "function") {
+        window.setupJobSearchComponent(callbackFn);
+    } else {
+        console.error("setupJobSearchComponent not found after retries");
+    }
+}
+
 
 
 function setLocalStorage(jwtToken){

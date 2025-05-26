@@ -22,10 +22,11 @@ def login_api():
     # Return is the user is not valid  #base Case.
     
     if not user:
-       return server_response(400,'UserNot Found ; else Register please')
-   
+        return server_response(400,'UserNot Found ; else Register please')
+    print("user: ",user)
     user_id = user[0]
-    user_email = user[1]
+    user_name = user[1]
+    user_email = user[2]
     user_role = user[-1]
 
     token = create_jwt({'user_id': user_id, 'email': user_email, 'role': user_role})

@@ -24,7 +24,7 @@ def employee_create_job_post():
     conn = sqlite3.connect('jobs.db')
     c = conn.cursor()
     c.execute("INSERT INTO jobs (title, company, location, description) VALUES (?, ?, ?, ?)", 
-              (title, company, location, description))
+            (title, company, location, description))
     conn.commit()
     conn.close()
 

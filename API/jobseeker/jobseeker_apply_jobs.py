@@ -3,7 +3,7 @@ from datetime import datetime
 import sqlite3
 from utils_py import server_response
 
-def apply_job():
+def apply_job_old():
     user_data_from_token = g.current_user
     now = datetime.now()
     formatted = now.strftime("%Y-%m-%d %H:%M:%S")
