@@ -1,18 +1,25 @@
-# dockerFile
-FROM  ubuntu:latest
+# Use slim Python base image
+FROM python:3.11-slim
 
-RUN  apt update -y &&  apt-get update -y  &&   apt-get install -y python3 python3-pip 
+# Set environment variables to reduce Python output buffering and bytecode
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-RUN pip install flask ==3.8*
+# Set work directory
+WORKDIR /app
 
-COPY requirement.txt .
+# Install build dependencies
+RUN apt-get update && apt-get install -y build-essential
 
-RUN pip install -r requirement.txt
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy the rest of the project
 COPY . .
 
-
-
+# Expose Flask/Gunicorn port
 EXPOSE 5000
 
-CMD ["gunicorn","app:app"] 
+# Run app using Gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]

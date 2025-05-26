@@ -2,9 +2,6 @@
 from flask import request,g
 import sqlite3
 from utils_py.responseDataFormate import server_response
-from DB.db_helper import select_sql
-# moved this variable to global scope to avoid multipule and unnecessary select Query 
-job_list = select_sql("all","jobs.db","jobs")
 def apply_job():
     user_data_from_token = g.current_user
     data = request.json
